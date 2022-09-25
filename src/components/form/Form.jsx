@@ -6,7 +6,6 @@ export default function Form({ submitHandler }) {
   const [color, setColor] = useState("");
 
   function handleInput(event) {
-    console.log(event.target.value);
     setColor(event.target.value);
   }
 
@@ -16,7 +15,7 @@ export default function Form({ submitHandler }) {
       style={{ backgroundColor: color }}
       className="card form"
     >
-      <label for="colorPicker">Choose a color:</label>
+      <label htmlFor="colorPicker">Choose a color:</label>
       <input
         id="colorPicker"
         type="color"
@@ -27,10 +26,11 @@ export default function Form({ submitHandler }) {
         name="hex_input"
         type="text"
         value={color}
-        placeholder="...or provide a hex-code"
+        placeholder="#000000"
         onChange={handleInput}
+        className="card__box"
       />
-      <button type="submit" className="card__box">
+      <button type="submit" className="card__box button">
         ADD
       </button>
     </form>

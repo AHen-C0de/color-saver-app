@@ -4,10 +4,11 @@
   justify-content: center;
   align-items: center;
   gap: 1.5rem;
-  border-radius: 0.3rem;
-  width: 20rem;
+  border-radius: 0.4rem;
+  width: 15rem;
   aspect-ratio: 1;
   margin: 2rem;
+  padding: 1rem;
 }
 
 .card__box {
@@ -15,10 +16,19 @@
   font-size: 1.1rem;
   border-radius: 0.6rem;
   border: solid 1px black;
-  width: 50%;
+  width: 70%;
   text-align: center;
+  background-color: white;
 }
 
 .name {
   font-size: 1.5rem;
+}
+
+.card__delete-button {
+  position: relative;
+  top: -2rem;
+  right: -7rem;
+  font-size: 1.2rem;
+  border-radius: 50%;
 }

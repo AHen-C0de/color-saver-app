@@ -18,22 +18,55 @@ function App() {
     );
   }
 
+  function checkValidHexInput(colorCode) {
+    if (
+      !colorCode.startsWith("#") ||
+      (colorCode.length !== 4 && colorCode.length !== 7)
+    ) {
+      alert("Invalid hex code! Give '#xxx' or '#xxxxxx'.");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function updateColor(id, newColorCode) {
+    const valid = checkValidHexInput(newColorCode);
+    if (valid) {
+      const updatedSavedColors = savedColors.map((color) => {
+        return color.id === id ? { ...color, colorCode: newColorCode } : color;
+      });
+      setSavedColors(updatedSavedColors);
+    }
+  }
+
+  function deleteCard(event, id) {
+    const newSavedColors = savedColors.filter((color) => color.id !== id); // filter out to-delete card using its id, when mapped in render
+    setSavedColors(newSavedColors); // change color state with new array
+    event.stopPropagation(); // stop bubbling (triggering events up and down nodes)
+  }
+
   function sendForm(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
+    const newColorCode = data.hex_input;
 
-    const newColor = {
-      id: Math.random() + "",
-      colorCode: data.hex_input,
-    };
+    const valid = checkValidHexInput(newColorCode);
+    if (valid) {
+      const newColor = {
+        id: Math.random() + "",
+        colorCode: data.hex_input,
+      };
 
-    const newSavedColors = [...savedColors]; // create new color object
-    newSavedColors.push(newColor); // push color object into color state array
+      const newSavedColors = [...savedColors]; // create new color object
+      newSavedColors.push(newColor); // push color object into color state array
+      setSavedColors(newSavedColors); // change color state with new array
 
-    setSavedColors(newSavedColors); // change color state with new array
-    event.target.reset();
+      event.target.reset();
+      event.stopPropagation(); // stop bubbling (triggering events up and down nodes)
+    }
   }
 
   return (
@@ -44,8 +77,11 @@ function App() {
         {savedColors.map(({ id, colorCode }) => (
           <ColorCard
             key={id}
+            id={id}
             color={colorCode}
-            clickHandler={() => copyColorCodeToClipboard(colorCode)}
+            clickOnCard={() => copyColorCodeToClipboard(colorCode)}
+            clickDelete={(event) => deleteCard(event, id)}
+            clickOutOfInput={updateColor}
           />
         ))}
       </div>
