@@ -1,19 +1,7 @@
-.colorCards-wrapper {
+.App__colorCards-wrapper {
   display: flex;
-  flex-flow: row wrap;
-}
-
-.button {
-  background-color: rgb(229, 229, 229);
-  box-shadow: 0 5px rgb(186, 186, 186);
-}
-
-.button:hover {
-  background-color: rgb(203, 203, 203);
-}
-
-.button:active {
-  background-color: rgb(203, 203, 203);
-  box-shadow: 0 2px rgb(158, 158, 158);
-  transform: translateY(4px);
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }

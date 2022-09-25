@@ -60,8 +60,7 @@ function App() {
       setSavedColors(updatedSavedColors);
       console.log("colors updated");
     } else {
-      console.log("dublicate");
-      console.log(savedColors);
+      console.log("FAKE colors update");
       setSavedColors([...savedColors]); // RE-RENDER DOESNT WORK !!!!!!!! :(
     }
   }
@@ -87,7 +86,7 @@ function App() {
       };
 
       const newSavedColors = [...savedColors]; // create new color object
-      newSavedColors.push(newColor); // push color object into color state array
+      newSavedColors.unshift(newColor); // push color object into color state array
       setSavedColors(newSavedColors); // change color state with new array
 
       event.target.reset();
@@ -99,7 +98,7 @@ function App() {
     <div className="App">
       <Form submitHandler={sendForm} />
 
-      <div className="colorCards-wrapper">
+      <div className="App__colorCards-wrapper">
         {savedColors.map(({ id, colorCode }) => (
           <ColorCard
             key={id}
