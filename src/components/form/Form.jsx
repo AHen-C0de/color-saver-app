@@ -5,10 +5,6 @@ import { useState } from "react";
 export default function Form({ submitHandler }) {
   const [color, setColor] = useState("#cccccc");
 
-  function handleInput(event) {
-    setColor(event.target.value);
-  }
-
   return (
     <form
       onSubmit={submitHandler}
@@ -21,14 +17,14 @@ export default function Form({ submitHandler }) {
         type="color"
         className="form__colorPicker"
         value={color}
-        onChange={handleInput}
+        onChange={(event) => setColor(event.target.value)}
       />
       <input
         name="hex_input"
         type="text"
         value={color}
         placeholder="#cccccc"
-        onChange={handleInput}
+        onChange={(event) => setColor(event.target.value)}
         className="card__box"
       />
       <button type="submit" className="card__box form__button">
