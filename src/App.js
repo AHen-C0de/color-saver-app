@@ -2,10 +2,16 @@ import "./App.css";
 import Form from "./components/form/Form.jsx";
 import ColorCard from "./components/colorCard/ColorCard.jsx";
 import colorDB from "./savedColors";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-  const [savedColors, setSavedColors] = useState(colorDB);
+  const [savedColors, setSavedColors] = useState(
+    () => JSON.parse(localStorage.getItem("savedColors")) ?? colorDB
+  );
+
+  useEffect(() => {
+    localStorage.setItem("savedColors", JSON.stringify(savedColors));
+  }, [savedColors]); // -> dependency array -> trigger useEffect every time, state 'savedColors' is updated
 
   function copyColorCodeToClipboard(text) {
     navigator.clipboard.writeText(text).then(
@@ -19,14 +25,29 @@ function App() {
   }
 
   function checkValidHexInput(colorCode) {
+    // colorCode = string input of hex color code
+    // a) check valid hex code format
     if (
       !colorCode.startsWith("#") ||
       (colorCode.length !== 4 && colorCode.length !== 7)
     ) {
       alert("Invalid hex code! Give '#xxx' or '#xxxxxx'.");
       return false;
+    }
+
+    // b) check wether new code doesnt already exist
+    let dublicate = false;
+    savedColors.forEach((color) => {
+      if (color.colorCode === colorCode) {
+        dublicate = true;
+      }
+    });
+
+    if (dublicate) {
+      alert("Color already exists!");
+      return false;
     } else {
-      return true;
+      return true; // good to go, valid input :)
     }
   }
 
@@ -37,6 +58,11 @@ function App() {
         return color.id === id ? { ...color, colorCode: newColorCode } : color;
       });
       setSavedColors(updatedSavedColors);
+      console.log("colors updated");
+    } else {
+      console.log("dublicate");
+      console.log(savedColors);
+      setSavedColors([...savedColors]); // RE-RENDER DOESNT WORK !!!!!!!! :(
     }
   }
 

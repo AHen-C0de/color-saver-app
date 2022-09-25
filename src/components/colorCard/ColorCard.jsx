@@ -9,10 +9,7 @@ export default function ColorCard({
   clickOutOfInput,
 }) {
   const [cardColor, setCardColor] = useState(color);
-
-  function handleInput(event) {
-    setCardColor(event.target.value);
-  }
+  const [initialColor, filler] = useState(color);
 
   return (
     <div
@@ -27,9 +24,13 @@ export default function ColorCard({
       <input
         className="card__box"
         value={cardColor}
-        onChange={handleInput}
+        onChange={(event) => setCardColor(event.target.value)}
         onClick={(event) => event.stopPropagation()}
-        onBlur={() => clickOutOfInput(id, cardColor)}
+        onBlur={() =>
+          // onBlur -> loose focus
+          // update savedColors only, if cardColor was changed
+          cardColor !== initialColor && clickOutOfInput(id, cardColor)
+        }
       />
     </div>
   );
