@@ -2,3 +2,25 @@
   border: solid 1px black;
   margin: 2rem auto 0 auto !important;
 }
+
+.form__colorPicker {
+  width: 70%;
+  border-radius: 0.6rem;
+  height: 2.1rem;
+  padding: 0.2rem;
+}
+
+.form__button {
+  box-shadow: 0 5px rgb(186, 186, 186);
+  font-weight: bold;
+}
+
+.form__button:hover {
+  background-color: rgb(192, 210, 215) !important;
+}
+
+.form__button:active {
+  background-color: rgb(192, 210, 215) !important;
+  box-shadow: 0 2px rgb(158, 158, 158);
+  transform: translateY(4px);
+}

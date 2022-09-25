@@ -1,5 +1,5 @@
 import "./ColorCard.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ColorCard({
   id,
@@ -9,10 +9,19 @@ export default function ColorCard({
   clickOutOfInput,
 }) {
   const [cardColor, setCardColor] = useState(color);
+  const [colorName, setColorName] = useState("");
+  const [initialColor, filler] = useState(color);
 
-  function handleInput(event) {
-    setCardColor(event.target.value);
-  }
+  useEffect(() => {
+    async function fetchColorName(colorCode) {
+      const response = await fetch(
+        `https://www.thecolorapi.com/id?hex=${colorCode.substring(1)}`
+      ); // subString() ->remove '#' from color code
+      const data = await response.json();
+      setColorName(data.name.value);
+    }
+    fetchColorName(cardColor);
+  }, [cardColor]);
 
   return (
     <div
@@ -21,15 +30,19 @@ export default function ColorCard({
       style={{ backgroundColor: cardColor }}
     >
       <button onClick={clickDelete} className="card__delete-button">
-        x
+        ✕
       </button>
-      <p className="name">Name</p>
+      <p className="name">{colorName}</p>
       <input
         className="card__box"
         value={cardColor}
-        onChange={handleInput}
+        onChange={(event) => setCardColor(event.target.value)}
         onClick={(event) => event.stopPropagation()}
-        onBlur={() => clickOutOfInput(id, cardColor)}
+        onBlur={() =>
+          // onBlur -> loose focus
+          // update savedColors only, if cardColor was changed
+          cardColor !== initialColor && clickOutOfInput(id, cardColor)
+        }
       />
     </div>
   );
