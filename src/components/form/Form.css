@@ -1,6 +1,7 @@
 .form {
   border: solid 1px black;
   margin: 2rem auto 0 auto !important;
+  cursor: unset !important;
 }
 
 .form__colorPicker {
